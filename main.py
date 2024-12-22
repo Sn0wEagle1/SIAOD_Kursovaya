@@ -518,7 +518,7 @@ def simulate_week(drivers, buses, points, route_combination=None, driver_assignm
     return best_schedule, total_revenue, best_combinations
 
 def simulate_short_week(drivers, buses, points, route_combination, driver_assignment, driver_types):
-    """Симуляция двух дней подряд: одного буднего и одного выходного."""
+    """Симуляция четырёх дней подряд: двух будних и двух выходных."""
     all_routes = generate_routes(points)
     routes = select_routes(all_routes, len(buses)) if route_combination is None else route_combination
     driver_types = driver_types[:]  # Копируем driver_types, чтобы избежать изменений в исходных данных
@@ -534,7 +534,7 @@ def simulate_short_week(drivers, buses, points, route_combination, driver_assign
         for _ in drivers
     ]
 
-    days_to_simulate = [0,1,5,6]  # Один будний (пн) и один выходной (сб)
+    days_to_simulate = [0,1,5,6]  # два будних (пн,вт) и два выходных (сб,вс)
     stops = [0] * (points+1)  # Состояние остановок
     bus_states = [6 * 60] * len(buses)  # Все автобусы начинают работу в 6:00
 
@@ -683,10 +683,6 @@ def run_genetic_algorithm():
 
         log_to_output(f"Запуск генетического алгоритма с параметрами:\n"
                       f"Водители: {drivers_count} | Маршрутки: {buses_count} | Пункты: {points_count}")
-
-        # Корректировка данных
-        if points_count < drivers_count:
-            log_to_output("Предупреждение: количество пунктов меньше числа водителей. Расширяем список пунктов.")
 
 
         # Инициализация данных
